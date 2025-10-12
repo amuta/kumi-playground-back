@@ -12,6 +12,8 @@ gem "rack-cors"
 gem "rack-attack"
 gem "kumi-parser"
 gem "kumi", path: '/home/muta/repos/kumi'
+gem "redis"
+gem "brotli"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
