@@ -7,8 +7,12 @@ class Api::ArtifactsController < ActionController::API
     js = REDIS.get(key)
     return head :not_found unless js
 
-    expires_in 1.year, public: true
-    response.set_header "Cache-Control", "public, max-age=31536000, immutable"
-    send_data js, type: "text/javascript", disposition: "inline"
+    etag = digest
+
+    if stale?(etag: etag, public: true)
+      expires_in 1.year, public: true
+      response.set_header "Cache-Control", "public, max-age=31536000, immutable"
+      send_data js, type: "text/javascript", disposition: "inline"
+    end
   end
 end

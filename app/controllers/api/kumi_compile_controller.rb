@@ -3,21 +3,30 @@ class Api::KumiCompileController < ActionController::API
 
   def create
     src = params.require(:schema_src).to_s
+    src_hash = Digest::SHA256.hexdigest(src)
+    compile_cache_key = "kumi:compile:v#{KVER}:#{src_hash}"
 
-    result = KumiCompile.call(src)
-    unless result[:ok]
-      return render status: :internal_server_error, json: { ok: false, errors: result[:errors] }
+    cached_result = REDIS.get(compile_cache_key)
+    if cached_result
+      result = JSON.parse(cached_result, symbolize_names: true)
+    else
+      result = KumiCompile.call(src)
+      unless result[:ok]
+        return render status: :internal_server_error, json: { ok: false, errors: result[:errors] }
+      end
+
+      REDIS.set(compile_cache_key, result.to_json)
+      REDIS.expire(compile_cache_key, 30.days)
+
+      schema_digest = result[:schema_digest]
+      artifact_cache_key = cache_key(schema_digest)
+      js = result[:js_src]
+      REDIS.set(artifact_cache_key, js)
+      REDIS.expire(artifact_cache_key, 30.days)
     end
 
     schema_digest = result[:schema_digest]
-    key = cache_key(schema_digest)
-
-    js = REDIS.get(key)
-    unless js
-      js = result[:js_src]
-      REDIS.set(key, js)
-      REDIS.expire(key, 30.days)
-    end
+    js = result[:js_src]
 
     render json: {
       ok: true,
