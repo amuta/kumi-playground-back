@@ -11,7 +11,7 @@ gem "oj"
 gem "rack-cors"
 gem "rack-attack"
 gem "kumi-parser"
-gem "kumi", path: '/home/muta/repos/kumi'
+gem "kumi"
 gem "redis"
 gem "brotli"
 
