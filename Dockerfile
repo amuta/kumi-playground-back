@@ -23,9 +23,8 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips pkg-config libjemalloc2 sqlite3 libyaml-dev
 
 # Install application gems
-COPY --link vendor/kumi-0.0.22.gem /tmp/
 COPY --link Gemfile Gemfile.lock ./
-RUN gem install /tmp/kumi-0.0.22.gem && bundle install && \
+RUN  bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
 
 # Copy application code

@@ -86,6 +86,8 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.6.2)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     drb (2.2.3)
     erb (5.1.1)
     erubi (1.13.1)
@@ -98,10 +100,10 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    kumi (0.0.19)
+    kumi (0.0.23)
       mutex_m (~> 0.3.0)
       zeitwerk (~> 2.6.0)
-    kumi-parser (0.0.25)
+    kumi-parser (0.0.27)
       parslet (~> 2.0)
       zeitwerk (~> 2.6)
     logger (1.7.0)
@@ -241,6 +243,7 @@ PLATFORMS
 DEPENDENCIES
   brotli
   debug
+  dockerfile-rails (>= 1.7)
   kumi
   kumi-parser
   oj

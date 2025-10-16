@@ -24,3 +24,5 @@ group :development, :test do
   gem "rspec-rails"
   gem "pry"
 end
+
+gem "dockerfile-rails", ">= 1.7", group: :development
