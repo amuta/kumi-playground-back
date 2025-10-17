@@ -40,7 +40,13 @@ class Api::KumiCompileController < ActionController::API
       output_schema: result[:output_schema]
     }
   rescue ActionController::ParameterMissing => e
-    render status: :bad_request, json: { ok: false, errors: [e.message] }
+    render status: :bad_request, json: { ok: false, errors: [{ message: e.message }] }
+  rescue Redis::ConnectionError => e
+    Rails.logger.error "Redis connection error: #{e.message}"
+    render status: :internal_server_error, json: { ok: false, errors: [{ message: "Cache service unavailable" }] }
+  rescue StandardError => e
+    Rails.logger.error "Compilation error: #{e.class} - #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}"
+    render status: :internal_server_error, json: { ok: false, errors: [{ message: "Server error: #{e.message}" }] }
   end
 
   private
