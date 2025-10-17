@@ -100,7 +100,7 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    kumi (0.0.23)
+    kumi (0.0.25)
       mutex_m (~> 0.3.0)
       zeitwerk (~> 2.6.0)
     kumi-parser (0.0.27)
@@ -150,7 +150,7 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.3)
-    rack-attack (6.7.0)
+    rack-attack (6.8.0)
       rack (>= 1.0, < 4)
     rack-cors (3.0.0)
       logger
@@ -208,7 +208,7 @@ GEM
     rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.5)
+    rspec-mocks (3.13.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-rails (8.0.2)
@@ -244,7 +244,7 @@ DEPENDENCIES
   brotli
   debug
   dockerfile-rails (>= 1.7)
-  kumi
+  kumi (~> 0.0.24)
   kumi-parser
   oj
   pry

@@ -1,24 +1,56 @@
-# README
+# Kumi API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 8 API backend with kumi-parser for code compilation.
 
-Things you may want to cover:
+## Requirements
 
-* Ruby version
+- Docker or Ruby 3.3.8
 
-* System dependencies
+## Docker Setup
 
-* Configuration
+### Build
 
-* Database creation
+```bash
+docker build -t kumi-api \
+  --build-arg VITE_API_BASE=http://localhost:3000 \
+  .
+```
 
-* Database initialization
+### Run
 
-* How to run the test suite
+```bash
+docker run -p 3000:3000 \
+  -e WEB_ORIGIN="*" \
+  -e SECRET_KEY_BASE=$(openssl rand -hex 64) \
+  -v $(pwd)/db:/rails/db \
+  kumi-api
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Available at `http://localhost:3000`
 
-* Deployment instructions
+### Environment Variables
 
-* ...
+- `WEB_ORIGIN` - CORS origins (default: `*`)
+- `SECRET_KEY_BASE` - Rails secret key
+- `VITE_API_BASE` - Frontend API endpoint (build-time)
+
+## Local Development
+
+### Setup
+
+```bash
+bundle install
+bin/rails db:setup
+```
+
+### Run
+
+```bash
+bin/rails server
+```
+
+### Tests
+
+```bash
+bundle exec rspec
+```

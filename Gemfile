@@ -11,7 +11,6 @@ gem "oj"
 gem "rack-cors"
 gem "rack-attack"
 gem "kumi-parser"
-gem "kumi"
 gem "redis"
 gem "brotli"
 
@@ -26,3 +25,5 @@ group :development, :test do
 end
 
 gem "dockerfile-rails", ">= 1.7", group: :development
+
+gem "kumi", "~> 0.0.24"
