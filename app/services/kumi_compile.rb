@@ -22,11 +22,29 @@ class KumiCompile
       }
     rescue => e
       Rails.logger.error "Kumi compilation failed: #{e.class} - #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
-      { ok: false, errors: [e.message] }
+      error_info = parse_error_location(e.message)
+      { ok: false, errors: [error_info] }
     end
   end
 
   private
+
+  def self.parse_error_location(message)
+    if message =~ /line=(\d+),\s*column=(\d+)>/
+      line = $1.to_i
+      column = $2.to_i
+
+      error_text = message.split("\n").last&.strip || message
+
+      {
+        message: error_text,
+        line: line,
+        column: column
+      }
+    else
+      { message: message }
+    end
+  end
 
   def self.format_lir(lir_module)
     return nil unless lir_module
