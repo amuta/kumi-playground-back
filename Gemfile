@@ -10,6 +10,7 @@ gem "puma", ">= 5.0"
 gem "oj"
 gem "rack-cors"
 gem "rack-attack"
+gem "kumi", "~> 0.0.28"
 gem "kumi-parser"
 gem "redis"
 gem "brotli"
@@ -26,4 +27,3 @@ end
 
 gem "dockerfile-rails", ">= 1.7", group: :development
 
-gem "kumi", path: "/home/muta/repos/kumi"
