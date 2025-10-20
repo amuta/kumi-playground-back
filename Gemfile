@@ -26,4 +26,4 @@ end
 
 gem "dockerfile-rails", ">= 1.7", group: :development
 
-gem "kumi", "~> 0.0.24"
+gem "kumi", path: "/home/muta/repos/kumi"

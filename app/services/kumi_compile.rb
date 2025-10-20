@@ -30,20 +30,52 @@ class KumiCompile
   private
 
   def self.parse_error_location(message)
-    if message =~ /line=(\d+),\s*column=(\d+)>/
-      line = $1.to_i
-      column = $2.to_i
-
-      error_text = message.split("\n").last&.strip || message
+    # Try to extract from "file:line:column:" prefix first
+    if message =~ /^\S+:(\d+):(\d+):/
+      line = ::Regexp.last_match(1).to_i
+      column = ::Regexp.last_match(2).to_i
+      # Strip the prefix from message
+      full_message = message.sub(/^\S+:\d+:\d+:\s+/, '')
+      # Extract just the error text (before code frame)
+      error_text = extract_error_text(full_message)
 
       {
-        message: error_text,
+        message: full_message,
+        error_text: error_text,
+        line: line,
+        column: column
+      }
+    # Fall back to "line=N column=M" format
+    elsif message =~ /line=(\d+)\s+column=(\d+)/
+      line = ::Regexp.last_match(1).to_i
+      column = ::Regexp.last_match(2).to_i
+      full_message = message.gsub(/\s+at\s+\S+\s+line=\d+\s+column=\d+/, '').strip
+      error_text = extract_error_text(full_message)
+
+      {
+        message: full_message,
+        error_text: error_text,
         line: line,
         column: column
       }
     else
       { message: message }
     end
+  end
+
+  def self.extract_error_text(message)
+    # Extract lines before the code frame
+    # Code frame lines have format: "N |", "  |", or "➤ N |"
+    lines = message.split("\n")
+    error_lines = []
+
+    lines.each do |line|
+      # Stop at code frame lines (contain " |" or start with ➤ or just numbers and pipe)
+      break if line.match?(/\|\s/) || line.match?(/^\s+\|/) || line.match?(/^➤/)
+      error_lines << line
+    end
+
+    error_lines.join("\n").strip
   end
 
   def self.format_lir(lir_module)
