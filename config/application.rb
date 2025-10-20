@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "../lib/spa_cache_headers"
 
 require "rails"
 # Pick the frameworks you want:
@@ -42,6 +43,7 @@ module KumiApi
     config.api_only = true
 
     config.middleware.use Rack::Attack
+    config.middleware.insert_before 0, SpaCacheHeaders
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins ENV.fetch("WEB_ORIGIN", "*")
