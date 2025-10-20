@@ -31,14 +31,14 @@ class SpaCacheTest < ActionDispatch::IntegrationTest
     assert response.content_type.include?("application/json")
   end
 
-  test "hashed assets have 1-day cache headers" do
+  test "hashed assets have 1-week cache headers" do
     # Simulate a request to a hashed asset
     get "/assets/index-ABC123xyz.js"
 
     cache_control = response.headers["Cache-Control"]
-    one_day_seconds = 24 * 60 * 60
-    assert cache_control.include?("max-age=#{one_day_seconds}"),
-      "Expected 'max-age=#{one_day_seconds}' in Cache-Control header, got: #{cache_control}"
+    one_week_seconds = 7 * 24 * 60 * 60
+    assert cache_control.include?("max-age=#{one_week_seconds}"),
+      "Expected 'max-age=#{one_week_seconds}' in Cache-Control header, got: #{cache_control}"
     assert cache_control.include?("immutable"),
       "Expected 'immutable' in Cache-Control header, got: #{cache_control}"
   end

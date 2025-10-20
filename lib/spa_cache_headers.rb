@@ -15,9 +15,9 @@ class SpaCacheHeaders
       headers['Pragma'] = 'no-cache'
       headers['Expires'] = '0'
     elsif path.include?('-') && (path.end_with?('.js') || path.end_with?('.css') || path.end_with?('.woff2'))
-      # Cache hashed assets (index-ABC123.js) for 1 day since they never change
-      one_day = 24 * 60 * 60
-      headers['Cache-Control'] = "public, max-age=#{one_day}, immutable"
+      # Cache hashed assets (index-ABC123.js) for 1 week since they never change
+      one_week = 7 * 24 * 60 * 60
+      headers['Cache-Control'] = "public, max-age=#{one_week}, immutable"
     end
 
     [status, headers, body]
