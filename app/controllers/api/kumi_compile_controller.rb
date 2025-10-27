@@ -36,6 +36,7 @@ class Api::KumiCompileController < ActionController::API
       js_src: js,
       ruby_src: result[:ruby_src],
       lir: result[:lir],
+      snast: result[:snast],
       input_form_schema: result[:input_form_schema],
       output_schema: result[:output_schema]
     }

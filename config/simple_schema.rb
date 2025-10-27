@@ -1,17 +1,11 @@
 schema do
   input do
-    array :users do
-      string :name
-      string :state
-    end
+    integer :x
+    integer :y
   end
 
-  value :users, {
-    name: input.users.name,
-    state: input.users.state
-  }
+  value :sum, input.x + input.y
+  value :product, input.x * input.y
 
-  trait :is_john, input.users.name == "John"
-
-  value :john_user, select(is_john, users, "NOT_JOHN")
+  trait :is_positive, input.x > 0
 end

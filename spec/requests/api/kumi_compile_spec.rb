@@ -26,6 +26,18 @@ RSpec.describe "Api::KumiCompile", type: :request do
         expect(json["artifact_hash"]).to be_present
       end
 
+      it "includes SNAST in the response" do
+        post "/api/kumi/compile", params: {
+          schema_src: simple_schema
+        }, as: :json
+
+        expect(response).to have_http_status(:success)
+        json = JSON.parse(response.body)
+        expect(json["ok"]).to eq(true)
+        expect(json["snast"]).to be_a(String)
+        expect(json["snast"]).to include("SNAST")
+      end
+
       it "caches compiled JavaScript in Redis" do
         params = { schema_src: simple_schema }
 

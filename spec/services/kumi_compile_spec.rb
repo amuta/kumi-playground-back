@@ -27,6 +27,14 @@ RSpec.describe KumiCompile do
 
         expect(result[:js_src]).to include("class")
       end
+
+      it "returns SNAST in the response" do
+        result = KumiCompile.call(simple_schema)
+
+        expect(result[:ok]).to eq(true)
+        expect(result[:snast]).to be_a(String)
+        expect(result[:snast]).to include("SNAST")
+      end
     end
 
     context "with invalid schema" do

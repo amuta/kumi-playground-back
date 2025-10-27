@@ -10,6 +10,7 @@ class KumiCompile
       input_form_schema = res.state[:input_form_schema]
       output_schema = res.state[:output_schema]
       lir_text = format_lir(res.state[:lir_module]) if res.state[:lir_module]
+      snast_text = format_snast(res.state[:snast_module])
 
       {
         ok: true,
@@ -18,7 +19,8 @@ class KumiCompile
         schema_digest: schema_digest,
         input_form_schema: input_form_schema,
         output_schema: output_schema,
-        lir: lir_text
+        lir: lir_text,
+        snast: snast_text
       }
     rescue => e
       Rails.logger.error "Kumi compilation failed: #{e.class} - #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
@@ -81,5 +83,9 @@ class KumiCompile
   def self.format_lir(lir_module)
     return nil unless lir_module
     Kumi::Support::LIRPrinter.print(lir_module, show_stamps: true, show_locations: false)
+  end
+
+  def self.format_snast(snast_module)
+    Kumi::Support::SNASTPrinter.print(snast_module)
   end
 end
