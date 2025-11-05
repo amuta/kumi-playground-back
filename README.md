@@ -22,7 +22,6 @@ docker build -t kumi-api \
 docker run -p 3000:3000 \
   -e WEB_ORIGIN="*" \
   -e SECRET_KEY_BASE=$(openssl rand -hex 64) \
-  -v $(pwd)/db:/rails/db \
   kumi-api
 ```
 
@@ -36,21 +35,7 @@ Available at `http://localhost:3000`
 
 ## Local Development
 
-### Setup
-
 ```bash
-bundle install
-bin/rails db:setup
-```
-
-### Run
-
-```bash
-bin/rails server
-```
-
-### Tests
-
-```bash
-bundle exec rspec
-```
+bundle install    # Install
+bin/rails server  # Run
+bundle exec rspec # Test
